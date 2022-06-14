@@ -18,3 +18,13 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @media (prefers-color-scheme: dark) {
+  html {
+    filter: invert(100%);
+  }
+
+  img {
+    filter: invert(100%);
+  }
+} */
