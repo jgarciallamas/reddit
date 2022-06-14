@@ -1,11 +1,30 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import { getPosts } from "lib/data";
+import prisma from "lib/prisma";
+import timeago from "lib/timeago";
+import Posts from "components/Posts";
 
-export default function Home() {
+export async function getServerSideProps() {
+  let posts = await getPosts(prisma);
+  posts = JSON.parse(JSON.stringify(posts));
+
+  return {
+    props: {
+      posts,
+    },
+  };
+}
+
+export default function Home({ posts }) {
   return (
-    <div className={styles.container}>
-      <h1 className="text-lg text-lime-600">Reddit Clone</h1>
+    <div>
+      <Head>
+        <title>Reddit Clone</title>
+        <meta name="description" content="A great social network!" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Posts posts={posts} />
     </div>
   );
 }
