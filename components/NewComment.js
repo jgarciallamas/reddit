@@ -32,6 +32,7 @@ export default function NewComment({ post }) {
         rows={1}
         cols={50}
         placeholder="Add a comment"
+        value={content}
         onChange={(e) => setContent(e.target.value)}
       />
       <div className="mt-5">

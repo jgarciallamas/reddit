@@ -4,6 +4,7 @@ import Link from "next/link";
 import timeago from "lib/timeago";
 import NewComment from "components/NewComment";
 import { useSession } from "next-auth/react";
+import Comments from "components/Comments";
 
 export async function getServerSideProps({ params }) {
   const subreddit = await getSubreddit(params.subreddit, prisma);
@@ -77,6 +78,7 @@ export default function Post({ subreddit, post }) {
             to add a comment
           </p>
         )}
+        <Comments comments={post.comments} />
       </div>
     </>
   );
