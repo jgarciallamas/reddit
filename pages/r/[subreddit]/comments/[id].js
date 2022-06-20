@@ -108,7 +108,10 @@ export default function Post({ subreddit, post, votes, vote }) {
           <div className="flex flex-shrink-0 pb-0 ">
             <div className="flex-shrink-0 block group ">
               <div className="flex items-center text-gray-800">
-                Posted by {post.author.name}{" "}
+                Posted by
+                <Link href={`/u/${post.author.name}`}>
+                  <a className="ml-1 underline">{post.author.name}</a>
+                </Link>{" "}
                 <p className="mx-2 underline">
                   {timeago.format(new Date(post.createdAt))}
                 </p>
@@ -119,6 +122,12 @@ export default function Post({ subreddit, post, votes, vote }) {
             <a className="flex-shrink text-2xl font-bold color-primary width-auto">
               {post.title}
             </a>
+            {post.image && (
+              <img
+                className="flex-shrink text-base font-normal color-primary width-auto mt-2"
+                src={post.image}
+              />
+            )}
             <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">
               {post.content}
             </p>
@@ -133,7 +142,7 @@ export default function Post({ subreddit, post, votes, vote }) {
               to add a comment
             </p>
           )}
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments} post={post} />
         </div>
       </div>
     </>

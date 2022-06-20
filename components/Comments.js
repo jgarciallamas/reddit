@@ -1,23 +1,49 @@
 import timeago from "lib/timeago";
+import Link from "next/link";
+import { useState } from "react";
+import NewComment from "./NewComment";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, post }) => {
+  const [showReply, setShowReply] = useState(false);
   return (
     <div className=" mt-6">
       <p>
-        {comment.author.name} {timeago.format(new Date(comment.createdAt))}
+        <Link href={`/u/${comment.author.name}`}>
+          <a className="underline">{comment.author.name}</a>
+        </Link>{" "}
+        {timeago.format(new Date(comment.createdAt))}
       </p>
       <p>{comment.content}</p>
+      {showReply ? (
+        <div className="pl-10">
+          <NewComment comment={comment} post={post} />
+        </div>
+      ) : (
+        <p
+          className="underline text-sm cursor-pointer"
+          onClick={() => setShowReply(true)}
+        >
+          reply
+        </p>
+      )}
     </div>
   );
 };
 
-export default function Comments({ comments }) {
+export default function Comments({ comments, post }) {
   if (!comments) return null;
 
   return (
     <>
       {comments.map((comment, index) => (
-        <Comment key={index} comment={comment} />
+        <>
+          <Comment key={index} comment={comment} post={post} />
+          {comment.comments && (
+            <div className="pl-10">
+              <Comments comments={comment.comments} post={post} />
+            </div>
+          )}
+        </>
       ))}
     </>
   );
